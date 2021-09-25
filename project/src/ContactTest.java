@@ -21,6 +21,18 @@ public class ContactTest {
                 "        Enter an option (1, 2, 3, 4 or 5):" );
     }
 
+// showContacts
+
+    public static List<Contact> showContacts(Path filePath, List<Contact> cList) throws IOException{
+        System.out.println("Name        | Number\n");
+        System.out.println("-----------------------");
+        for (Contact c: cList) {
+            System.out.printf("%5s %-10s | %d \n", c.getFirstName(), c.getLastName(), c.getNumber());
+        }
+        return cList;
+    }
+
+
 //searchcontacts
 
 //addmethods
