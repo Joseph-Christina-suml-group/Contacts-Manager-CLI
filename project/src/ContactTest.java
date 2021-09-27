@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 public class ContactTest {
 
+private List<String> storeList;
 
 //showmenu
 
@@ -22,17 +23,21 @@ public class ContactTest {
 
 // showContacts
 
-    public static List<Contact> showContacts(Path filePath, List<Contact> cList) throws IOException{
+    public static List<Contact> showContacts(Path pathToOurFile, List<Contact> cList) throws IOException{
         System.out.println("Name        | Number\n");
         System.out.println("-----------------------");
         for (Contact c: cList) {
-            System.out.printf("%5s %-10s | %d \n", c.getFirstName(), c.getLastName(), c.getNumber());
+            System.out.printf("%5s %-10s | %s \n", c.getFirstName(), c.getLastName(), c.getNumber());
         }
         return cList;
     }
 
-
-// searchContactsByName
+    public static void readFile(Path pathToOurFile) throws IOException {
+        List<String> contacts = Files.readAllLines(pathToOurFile);
+        for (int i = 0; i < contacts.size(); i += 1) {
+            contacts.get(i);
+        }
+    }
 
     public static void searchContactsByName(List<Contact> cList){
         Scanner sc = new Scanner(System.in);
@@ -50,24 +55,80 @@ public class ContactTest {
 
 
 //addmethods MUST FINISH
+//    public static void addFirstName(List<Contact> cList){
+//        Scanner sc = new Scanner(System.in);
+//        System.out.println("please add the first name: ");
+//        String fNameInput = sc.nextLine();
+//        for(Contact c : cList){
+//            c.getFirstName().equals(fNameInput);
+//        }
+//    }
+//
+//    public static void addLastName(List<Contact> cList){
+//        Scanner sc = new Scanner(System.in);
+//        System.out.println("please add the last name: ");
+//        String lNameInput = sc.nextLine();
+//        for(Contact c : cList){
+//            c.getLastName().equals(lNameInput);
+//        }
+//    }
+//
+//    public static void addNumber(List<Contact> cList){
+//        Scanner sc = new Scanner(System.in);
+//        System.out.println("please add the phone number: ");
+//        String pNumberInput = sc.nextLine();
+//        for(Contact c : cList){
+//            c.getNumber().equals(pNumberInput);
+//        }
+//    }
+
     public static void addContact(List<Contact> cList){
         Scanner sc = new Scanner(System.in);
-        System.out.println("please add the first name");
+        System.out.println("add first name: ");
         String fNameInput = sc.nextLine();
+        System.out.println("add last name: ");
+        String lNameInput = sc.nextLine();
+        System.out.println("add the phone number: ");
+        String pNumberInput = sc.nextLine();
+
+            Contact c1 = new Contact(fNameInput, lNameInput, pNumberInput);
+            cList.add(c1);
+
+            System.out.println(fNameInput + " " + lNameInput + " " + pNumberInput );
+            System.out.println("This is a new contact");
+
+
+
+
+    }
+
+
+    public static List<String> saveListAsString(List<Contact> cList){
+        List<String> saveList = new ArrayList<>();
         for(Contact c : cList){
-            c.getFirstName();
+            saveList.add(c.getFirstName()+ "| " + c.getLastName()+ " | " + c.getNumber());
+        }
+        return saveList;
+    }
+
+
+
+    public static void removeContact(Path pathToOurFile, List<Contact> cList){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("choose a person you want to remove: ");
+        String userInput = sc.nextLine();
+        for (Contact c : cList){
+            if(c.getLastName().contains(userInput) || c.getFirstName().contains(userInput) ){
+                cList.remove(c);
+            } else{
+                System.out.println("That name does not exists");
+                removeContact(pathToOurFile,  cList);
+            }
         }
     }
 
 
-    // MUST FINISH
-    public static void saveListAsString(){}
-
-
-//deletecontact
-
-
-public static void main(String[] args) {
+public static void main(String[] args) throws IOException {
 //          PATH TO OUR PROJECT FILE
 //        Path path = Paths.get("src");
 //        System.out.println(path.toAbsolutePath());
@@ -104,11 +165,14 @@ public static void main(String[] args) {
         ioe.printStackTrace();
     }
 
+
+
+
     List<Contact> contactList = new ArrayList<>();
     Scanner sc = new Scanner(System.in);
     String userInput;
     do{
-
+        readFile(pathToOurFile);
         showMenu();
         userInput = sc.nextLine();
         switch(userInput){
@@ -116,12 +180,12 @@ public static void main(String[] args) {
                 showContacts(pathToOurFile, contactList);
                 break;
             case"2":
-                addContact(pathToOurFile, contactList);
+                addContact(contactList);
                 break;
             case "3":
                 searchContactsByName(contactList);
             case"4":
-                //Delete contact
+                removeContact(pathToOurFile, contactList);
                 break;
             case"5":
                 Files.write(pathToOurFile, saveListAsString(contactList), StandardOpenOption.APPEND);
@@ -134,25 +198,6 @@ public static void main(String[] args) {
 
     }while(!userInput.equalsIgnoreCase("5"));
 
-    List<Contact> Contacts = Arrays.asList(
-//            "Harry",
-//            "Sally",
-//            "Dick",
-//            "Jane",
-//            "Bruce",
-            new Contact("Joe","Demagio", "444-4444"),
-            new Contact("Lisa","Simpson","588-2300"),
-            new Contact("Eva","Green","773-2424")
-
-    );
-        try{
-            Files.write(pathToOurFile, (Iterable<? extends CharSequence>) Contacts);
-        } catch(FileAlreadyExistsException fae){
-            System.out.println(fae + " already exists.");
-        } catch(IOException ioe){
-            System.out.println("there was an issue with Contact Array List");
-            ioe.printStackTrace();
-        }
-//        showContacts("","")
+//
     }
 }
