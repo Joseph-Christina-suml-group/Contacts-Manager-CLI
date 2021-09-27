@@ -25,9 +25,10 @@ private List<String> storeList;
 
     public static List<Contact> showContacts(Path pathToOurFile, List<Contact> cList) throws IOException{
         System.out.println("Name        | Number\n");
-        System.out.println("-----------------------");
+        System.out.println("¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯");
+        readFile(pathToOurFile);
         for (Contact c: cList) {
-            System.out.printf("%5s %-10s | %s \n", c.getFirstName(), c.getLastName(), c.getNumber());
+            System.out.printf("%5s | %-10s | %s \n", c.getFirstName(), c.getLastName(), c.getNumber());
         }
         return cList;
     }
@@ -35,7 +36,7 @@ private List<String> storeList;
     public static void readFile(Path pathToOurFile) throws IOException {
         List<String> contacts = Files.readAllLines(pathToOurFile);
         for (int i = 0; i < contacts.size(); i += 1) {
-            contacts.get(i);
+            System.out.println(contacts.get(i));
         }
     }
 
@@ -46,7 +47,6 @@ private List<String> storeList;
         for (Contact c : cList){
             if(c.getFirstName().contains(userInput) || c.getLastName().contains(userInput)){
                 System.out.printf("%1s %5s | %s \n", c.getFirstName(), c.getLastName(), c.getNumber());
-                showMenu();
             } else{
                 System.out.println("The name " + userInput + " does not exist in our file.");
                 searchContactsByName(cList);
@@ -137,13 +137,12 @@ public static void main(String[] args) throws IOException {
     Scanner sc = new Scanner(System.in);
     String userInput;
     do{
-        readFile(pathToOurFile);
+//        readFile(pathToOurFile);
         //needs to read the contact.txt first
         showMenu();
         userInput = sc.nextLine();
         switch(userInput){
             case "1":
-                readFile(pathToOurFile);
                 showContacts(pathToOurFile, contactList);
                 break;
             case"2":
