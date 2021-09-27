@@ -40,7 +40,8 @@ public class ContactTest {
         String userInput =sc.nextLine();
         for (Contact c : cList){
             if(c.getFirstName().contains(userInput) || c.getLastName().contains(userInput)){
-                System.out.printf("%1s %5s | %d \n", c.getFirstName(), c.getLastName(), c.getNumber());
+                System.out.printf("%1s %5s | %s \n", c.getFirstName(), c.getLastName(), c.getNumber());
+                showMenu();
             } else{
                 System.out.println("The name " + userInput + " does not exist in our file.");
                 searchContactsByName(cList);
@@ -49,13 +50,19 @@ public class ContactTest {
     }
 
 
+
 //addmethods MUST FINISH
+
     public static void addContact(List<Contact> cList){
         Scanner sc = new Scanner(System.in);
         System.out.println("please add the first name");
         String fNameInput = sc.nextLine();
         for(Contact c : cList){
+
             c.getFirstName();
+
+            saveList.add(c.getFirstName()+ " | " + c.getLastName()+ " | " + c.getNumber());
+
         }
     }
 
@@ -76,6 +83,9 @@ public static void main(String[] args) {
 //        PATH TO OUR SOURCE
 //        Path pathToThisFile = Paths.get("src", "Contact.java");
 //        System.out.println(pathToThisFile);
+=======
+public static void main(String[] args) throws IOException {
+>>>>>>> bdc37af5716565fb4532a060d91f71a22f070eb5
 
 //        CREATION OF OUR DIRECTORY DATA
     Path pathToOurDataDirectory = Paths.get("project/src/data");
@@ -109,10 +119,14 @@ public static void main(String[] args) {
     String userInput;
     do{
 
+        readFile(pathToOurFile);
+        //needs to read the contact.txt first
+
         showMenu();
         userInput = sc.nextLine();
         switch(userInput){
             case "1":
+                readFile(pathToOurFile);
                 showContacts(pathToOurFile, contactList);
                 break;
             case"2":
@@ -120,6 +134,7 @@ public static void main(String[] args) {
                 break;
             case "3":
                 searchContactsByName(contactList);
+                break;
             case"4":
                 //Delete contact
                 break;
