@@ -45,7 +45,8 @@ private List<String> storeList;
         String userInput =sc.nextLine();
         for (Contact c : cList){
             if(c.getFirstName().contains(userInput) || c.getLastName().contains(userInput)){
-                System.out.printf("%1s %5s | %d \n", c.getFirstName(), c.getLastName(), c.getNumber());
+                System.out.printf("%1s %5s | %s \n", c.getFirstName(), c.getLastName(), c.getNumber());
+                showMenu();
             } else{
                 System.out.println("The name " + userInput + " does not exist in our file.");
                 searchContactsByName(cList);
@@ -53,34 +54,6 @@ private List<String> storeList;
         }
     }
 
-
-//addmethods MUST FINISH
-//    public static void addFirstName(List<Contact> cList){
-//        Scanner sc = new Scanner(System.in);
-//        System.out.println("please add the first name: ");
-//        String fNameInput = sc.nextLine();
-//        for(Contact c : cList){
-//            c.getFirstName().equals(fNameInput);
-//        }
-//    }
-//
-//    public static void addLastName(List<Contact> cList){
-//        Scanner sc = new Scanner(System.in);
-//        System.out.println("please add the last name: ");
-//        String lNameInput = sc.nextLine();
-//        for(Contact c : cList){
-//            c.getLastName().equals(lNameInput);
-//        }
-//    }
-//
-//    public static void addNumber(List<Contact> cList){
-//        Scanner sc = new Scanner(System.in);
-//        System.out.println("please add the phone number: ");
-//        String pNumberInput = sc.nextLine();
-//        for(Contact c : cList){
-//            c.getNumber().equals(pNumberInput);
-//        }
-//    }
 
     public static void addContact(List<Contact> cList){
         Scanner sc = new Scanner(System.in);
@@ -106,7 +79,7 @@ private List<String> storeList;
     public static List<String> saveListAsString(List<Contact> cList){
         List<String> saveList = new ArrayList<>();
         for(Contact c : cList){
-            saveList.add(c.getFirstName()+ "| " + c.getLastName()+ " | " + c.getNumber());
+            saveList.add(c.getFirstName()+ " | " + c.getLastName()+ " | " + c.getNumber());
         }
         return saveList;
     }
@@ -129,14 +102,6 @@ private List<String> storeList;
 
 
 public static void main(String[] args) throws IOException {
-//          PATH TO OUR PROJECT FILE
-//        Path path = Paths.get("src");
-//        System.out.println(path.toAbsolutePath());
-
-
-//        PATH TO OUR SOURCE
-//        Path pathToThisFile = Paths.get("src", "Contact.java");
-//        System.out.println(pathToThisFile);
 
 //        CREATION OF OUR DIRECTORY DATA
     Path pathToOurDataDirectory = Paths.get("project/src/data");
@@ -173,10 +138,12 @@ public static void main(String[] args) throws IOException {
     String userInput;
     do{
         readFile(pathToOurFile);
+        //needs to read the contact.txt first
         showMenu();
         userInput = sc.nextLine();
         switch(userInput){
             case "1":
+                readFile(pathToOurFile);
                 showContacts(pathToOurFile, contactList);
                 break;
             case"2":
@@ -184,6 +151,7 @@ public static void main(String[] args) throws IOException {
                 break;
             case "3":
                 searchContactsByName(contactList);
+                break;
             case"4":
                 removeContact(pathToOurFile, contactList);
                 break;
